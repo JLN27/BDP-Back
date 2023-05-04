@@ -14,6 +14,8 @@ class Event(models.Model):
     name = models.CharField(max_length=200)
     place = models.CharField(max_length=254)
     date = models.DateTimeField()
+    artists = models.ManyToManyField(Artist, through='EventArtist')
+
 
 class EventArtist(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)

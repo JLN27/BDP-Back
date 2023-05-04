@@ -9,10 +9,11 @@ class PlayListAdmin(admin.ModelAdmin):
 admin.site.register(PlayList, PlayListAdmin)
 
 admin.site.register(Song)
-admin.site.register(Artist)
+
 
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
-    filter_horizontal = ()
 
 admin.site.register(Event, EventAdmin)
+
+admin.site.register(Artist)
