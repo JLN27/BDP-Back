@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Artist, Event, EventArtist
+from .models import Artist, Event, EventArtist, Song, PlayList, PlayListSong
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
@@ -34,8 +34,41 @@ class EventArtistSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
-    event_artist = EventArtistSerializer(many=True, source='eventartist_set')
+    artists = serializers.PrimaryKeyRelatedField(queryset=Artist.objects.all(), many=True)
 
     class Meta:
         model = Event
-        fields = ('id', 'name', 'place', 'date', 'event_artist')
+        fields = ['id', 'name', 'place', 'date', 'artists']
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['artists'] = ArtistSerializer(instance.artists.all(), many=True).data
+        return rep
+    
+class SongSerializer(serializers.ModelSerializer):
+    artist = ArtistSerializer()
+
+    class Meta:
+        model = Song
+        fields = ('id', 'title', 'image', 'audio', 'video', 'artist')
+
+
+class PlayListSongSerializer(serializers.ModelSerializer):
+    song = SongSerializer()
+
+    class Meta:
+        model = PlayListSong
+        fields = ('song',)
+
+
+class PlayListSerializer(serializers.ModelSerializer):
+    songs = serializers.PrimaryKeyRelatedField(queryset=Song.objects.all(), many=True)
+
+    class Meta:
+        model = PlayList
+        fields = ('id', 'name', 'songs')
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['songs'] = SongSerializer(instance.songs.all(), many=True).data
+        return rep
