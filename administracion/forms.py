@@ -4,7 +4,8 @@ from .models import Song, PlayList, Artist, Event
 class PlayListForm(forms.ModelForm):
     songs = forms.ModelMultipleChoiceField(
         queryset=Song.objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
     )
 
     class Meta:
