@@ -18,6 +18,9 @@ class Event(models.Model):
     date = models.DateTimeField()
     artists = models.ManyToManyField(Artist, through='EventArtist')
 
+    def __str__(self):
+        return self.name
+
 
 class EventArtist(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
