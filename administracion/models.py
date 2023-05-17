@@ -8,16 +8,52 @@ class Artist(models.Model):
     realName = models.CharField(max_length=200)
     birthDate = models.DateField()
     info = models.CharField(max_length=400,null=True)
-    image = models.ImageField(upload_to='artist_images/', null=True, blank=True)
+    image = models.ImageField(upload_to='artist_images/', null=True)
 
     def __str__(self):
         return self.name
+
+    def delete(self, *args, **kwargs):
+        # Eliminar el archivo asociado al campo image
+        if self.image:
+            os.remove(self.image.path)
+        # Llamar al método delete() original de la clase para eliminar la instancia
+        super(Artist, self).delete(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        # Si se está actualizando una instancia existente, elimina el archivo antiguo antes de guardar la instancia actualizada
+        if self.id:
+            old_instance = Artist.objects.get(id=self.id)
+            if old_instance.image and old_instance.image != self.image:
+                os.remove(old_instance.image.path)
+        # Llamar al método save() original de la clase para guardar la instancia actualizada
+        super(Artist, self).save(*args, **kwargs)
     
 class Event(models.Model):
     name = models.CharField(max_length=200)
     place = models.CharField(max_length=254)
     date = models.DateTimeField()
     artists = models.ManyToManyField(Artist, through='EventArtist')
+    image = models.ImageField(upload_to='event_images/', null=True)
+
+    def __str__(self):
+        return self.name
+
+    def delete(self, *args, **kwargs):
+        # Eliminar el archivo asociado al campo image
+        if self.image:
+            os.remove(self.image.path)
+        # Llamar al método delete() original de la clase para eliminar la instancia
+        super(Event, self).delete(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        # Si se está actualizando una instancia existente, elimina el archivo antiguo antes de guardar la instancia actualizada
+        if self.id:
+            old_instance = Event.objects.get(id=self.id)
+            if old_instance.image and old_instance.image != self.image:
+                os.remove(old_instance.image.path)
+        # Llamar al método save() original de la clase para guardar la instancia actualizada
+        super(Event, self).save(*args, **kwargs)
 
 
 class EventArtist(models.Model):
@@ -66,9 +102,26 @@ class PlayList(models.Model):
     name = models.CharField(max_length=200)
     songs = models.ManyToManyField(Song, through='PlayListSong', blank=True, default=None)
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    image = models.ImageField(upload_to='playlist_images/', null=True)
 
     def __str__(self):
         return self.name
+
+    def delete(self, *args, **kwargs):
+        # Eliminar el archivo asociado al campo image
+        if self.image:
+            os.remove(self.image.path)
+        # Llamar al método delete() original de la clase para eliminar la instancia
+        super(PlayList, self).delete(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        # Si se está actualizando una instancia existente, elimina el archivo antiguo antes de guardar la instancia actualizada
+        if self.id:
+            old_instance = PlayList.objects.get(id=self.id)
+            if old_instance.image and old_instance.image != self.image:
+                os.remove(old_instance.image.path)
+        # Llamar al método save() original de la clase para guardar la instancia actualizada
+        super(PlayList, self).save(*args, **kwargs)
 
 
 class PlayListSong(models.Model):

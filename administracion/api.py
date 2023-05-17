@@ -11,7 +11,7 @@ from django.db import transaction
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework import permissions
 from rest_framework.permissions import BasePermission
-
+from rest_framework import generics
 
 class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -55,6 +55,14 @@ class ArtistViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
     
 
+
+class ArtistSongsList(generics.ListAPIView):
+    serializer_class = SongSerializer
+
+    def get_queryset(self):
+        artist_id = self.kwargs['artist_id'] # Obtener el id del artista de la URL
+        return Song.objects.filter(artist=artist_id)
+    
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
