@@ -8,6 +8,7 @@ class Artist(models.Model):
     realName = models.CharField(max_length=200)
     birthDate = models.DateField()
     info = models.CharField(max_length=400,null=True)
+    image = models.ImageField(upload_to='artist_images/', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -31,6 +32,7 @@ class Song(models.Model):
     audio = models.FileField(upload_to='audio/', validators=[FileExtensionValidator(allowed_extensions=['mp3'])])
     video = models.FileField(upload_to='videos/', validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    
 
     def __str__(self):
         return f"{self.title} - {self.artist.name}"

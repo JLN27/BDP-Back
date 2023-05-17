@@ -77,9 +77,6 @@ class SongSerializer(serializers.ModelSerializer):
         return song
 
 
-
-
-
 class PlayListSongSerializer(serializers.ModelSerializer):
     song = SongSerializer()
 
