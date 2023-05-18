@@ -12,14 +12,30 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework import permissions
 from rest_framework.permissions import BasePermission
 from rest_framework import generics
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-class CustomAuthToken(ObtainAuthToken):
+
+class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
+        response = super().post(request, *args, **kwargs)
+        if response.status_code == status.HTTP_200_OK:
+            # Obtén el token y los datos del usuario
+            token = response.data['access']
+            user = self.get_user(request.data['username'])
+            user_data = {
+                'username': user.username,
+                'email': user.email,
+                # Agrega otros datos del usuario que desees devolver
+            }
+            # Agrega el token y los datos del usuario a la respuesta
+            response.data['user'] = user_data
+        return response
+
+    def get_user(self, username):
+        try:
+            return User.objects.get(username=username)
+        except User.DoesNotExist:
+            return None
 
 
 class UserViewSet(viewsets.ModelViewSet):
