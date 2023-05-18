@@ -32,7 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    'material',
+    'material.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'administracion',
     'rest_framework',
-    'rest_framework.authtoken',
     'corsheaders',
 
 ]
@@ -150,3 +150,19 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+MATERIAL_ADMIN_SITE = {
+    'HEADER':  ('Administración BDP'),
+    'TITLE':  ('BDP'),
+    'FAVICON':  'BDP-favicon.png', 
+    'MAIN_BG_COLOR':  '#F8931F', 
+    'MAIN_HOVER_COLOR':  '#F8931F',
+    'PROFILE_PICTURE':  'transparente.png',
+    'PROFILE_BG':  'background.jpg',
+    'LOGIN_LOGO':  'transparente.png',
+    'LOGOUT_BG':  'background.jpg',
+    'TRAY_REVERSE': False,
+    'NAVBAR_REVERSE': False,
+    'SHOW_COUNTS': True,
+}
