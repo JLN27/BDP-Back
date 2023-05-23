@@ -11,10 +11,11 @@ class PlayListForm(forms.ModelForm):
 
     class Meta:
         model = PlayList
-        fields = ('name', 'songs')
+        fields = ('name', 'songs', 'image')
         labels = {
             'name': 'Nombre',
             'songs': 'Canciones',
+	    'image' : 'Imagen'
         }
 
 
@@ -27,12 +28,13 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = ('name', 'place', 'date', 'artists')
+        fields = ('name', 'place', 'date', 'artists', 'image')
         labels = {
             'name': 'Nombre',
             'place': 'Lugar',
             'date' : 'Fecha',
             'artists' : 'Artistas',
+	    'image' : 'Imagen',
         }
 
 class SongForm(forms.ModelForm):
