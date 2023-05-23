@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,9 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%@9jmpvbht*@%wv*bf3)3vu19$5!(jxfwdwcr3@@w5-m0+9(4z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+	'equip02.insjoaquimmir.cat',
+]
 
 
 # Application definition
@@ -85,8 +87,12 @@ WSGI_APPLICATION = 'BDP.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'BDP_db',
+	'USER': 'admin' ,
+	'PASSWORD' : 'Clase2daw' ,
+	'HOST': 'localhost' ,
+	'PORT' : '3306',
     }
 }
 
@@ -125,7 +131,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -133,11 +138,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -165,4 +167,16 @@ MATERIAL_ADMIN_SITE = {
     'TRAY_REVERSE': False,
     'NAVBAR_REVERSE': False,
     'SHOW_COUNTS': True,
+}
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+	os.path.join(BASE_DIR, 'staticfiles'),
+]
+
+
+SIMPLE_JWT = {
+	'ACCESS_TOKEN_LIFETIME' : timedelta(days=7),
+	'REFRESH_TOKEN_LIFETIME' : timedelta(days=30),
 }

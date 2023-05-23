@@ -4,7 +4,7 @@ from .forms import PlayListForm, EventForm, SongForm, ArtistForm
 class PlayListAdmin(admin.ModelAdmin):
     form = PlayListForm
     filter_horizontal = ('songs',)
-    icon_name = 'person'
+    icon_name = 'playlist_play'
 
 
 admin.site.register(PlayList, PlayListAdmin)
@@ -13,7 +13,7 @@ admin.site.register(PlayList, PlayListAdmin)
 
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
-    icon_name = 'person'
+    icon_name = 'event'
 
 
 admin.site.register(Event, EventAdmin)

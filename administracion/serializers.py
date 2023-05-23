@@ -22,8 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
-        fields = ('id', 'name', 'realName', 'birthDate', 'info')
-   
+        fields = ('id', 'name', 'realName', 'birthDate', 'info', 'image')
 
 class EventArtistSerializer(serializers.ModelSerializer):
     artist = ArtistSerializer()
@@ -38,7 +37,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id', 'name', 'place', 'date', 'artists']
+        fields = ['id', 'name', 'place', 'date', 'artists', 'image']
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
@@ -92,7 +91,7 @@ class PlayListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlayList
-        fields = ('id', 'name', 'songs', 'song_ids', 'created_by')
+        fields = ('id', 'name', 'songs', 'song_ids', 'created_by', 'image')
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
